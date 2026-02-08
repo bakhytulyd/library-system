@@ -5,9 +5,10 @@ exports.searchBooks = async (req, res) => {
   if (!query) return res.status(400).json({ message: 'Query is required' })
 
   try {
-    const response = await axios.get(
-      `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`
-    )
+  const response = await axios.get(
+  `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&key=AIzaSyBoWJmMoeuQerJ4gHwpJ9m6UyOGCBfiKRc`
+  )
+  console.log(response.data)
 
     const books = response.data.items?.map(item => ({
       title: item.volumeInfo.title,
@@ -19,7 +20,7 @@ exports.searchBooks = async (req, res) => {
 
     res.json(books)
   } catch (error) {
-    console.error(error.message)
-    res.status(500).json({ message: 'Failed to fetch books' })
-  }
+  console.error(error.response?.data || error.message)
+  res.status(500).json({ message: 'Failed to fetch books', error: error.message })
+}
 }

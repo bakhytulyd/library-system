@@ -1,8 +1,7 @@
-const express = require('express')
-const router = express.Router()
-const protect = require('../middleware/authMiddleware')
+const router = require('express').Router()
 const { searchBooks } = require('../controllers/bookInfoController')
+const { validateBookSearch } = require('../middleware/validateMiddleware')
 
-router.get('/search', protect, searchBooks)
+router.get('/search', validateBookSearch, searchBooks)
 
 module.exports = router
